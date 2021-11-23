@@ -1,40 +1,61 @@
 #pragma once
 #include <iostream>
 #include <utility>
+#include <cmath>
 
-/*
-*	Добавить:
-* -1- Перегрузка операторов сравнения (==, !=)
-*/
+class BrokenLine;
 
-struct Point
+class Point
 {
+public:
 	double _x, _y;
-	friend std::istream& operator>>(std::istream& in, Point& lhs);
-	friend std::ostream& operator<<(std::ostream& out, const Point& lhs);
+	BrokenLine operator+(const BrokenLine& rhs);//вставка в начало
+	Point(double x, double y) : _x(x), _y(y) {}
+	Point() : _x(0), _y(0) {}
 };
 
-class broken_line {
+class BrokenLine {
 private:
 	Point* _p;
 	unsigned _size;
 public:
-	broken_line();
-	broken_line(unsigned int size);
-	broken_line(const broken_line& rhs);
+	BrokenLine();
+	BrokenLine(unsigned int size);
+	BrokenLine(const BrokenLine& rhs);
 
-	void swap(broken_line& rhs);
+	unsigned GetSize() const {
+		return _size;
+	}
+
+	void SetSize(unsigned size) {
+		_size = size;
+		_p = new Point[_size];
+	}
+
+	void Swap(BrokenLine& rhs);
 
 	// по ссылке для записи данных, константый для чтения
 	Point& operator[](unsigned int index);
 	Point operator[](unsigned int index) const;
 
-	broken_line operator+(const broken_line& rhs);
-	broken_line operator+(const Point& rhs);
+	BrokenLine operator+(const BrokenLine& rhs); //конкатенация
+	BrokenLine operator+(const Point& rhs); //вставка в конец
 
-	friend std::istream& operator>>(std::istream& in, broken_line& lhs);
-	friend std::ostream& operator<<(std::ostream& out, const broken_line& lhs);
+	void AddToHead(const Point& point);
+	void AddToEnd(const Point& point);
 
-	~broken_line();
+
+	BrokenLine& operator=(const BrokenLine& rhs);
+
+	bool operator==(const BrokenLine& rhs);
+
+	bool operator!=(const BrokenLine& rhs);
+
+	double SizeLine(const BrokenLine& rhs) const;
+
+	friend std::istream& operator>>(std::istream& in, BrokenLine& lhs);
+	friend std::ostream& operator<<(std::ostream& out, const BrokenLine& lhs);
+
+	~BrokenLine();
 
 };
