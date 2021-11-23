@@ -26,15 +26,15 @@ void BrokenLine::Swap(BrokenLine& rhs)
 
 Point& BrokenLine::operator[](unsigned int index)
 {
-	if (_size <= index)
-		throw std::out_of_range("error");
+	if (_p == nullptr) throw "Line is empty";
+	if ((index >= _size) || (index < 0)) throw "Invalid index";
 	return _p[index];
 }
 
 Point BrokenLine::operator[](unsigned int index) const
 {
-	if (_size <= index)
-		throw std::logic_error("error");
+	if (_p == nullptr) throw "Line is empty";
+	if ((index >= _size) || (index < 0)) throw "Invalid index";
 	return _p[index];
 }
 
